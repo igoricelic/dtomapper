@@ -24,10 +24,10 @@ final class MapperImpl extends AbstractMapper {
     @Override
     public <T> T map(Object source, int maxDepth, Class<T> targetClass) {
         Assert.checkNotNull(source, targetClass);
-        return transform(source, maxDepth, targetClass, source.getClass());
+        return transform(source, maxDepth, targetClass);
     }
 
-    private <T> T transform(Object sourceObject, int depth, Class<T> targetClass, Class<?> sourceClass) {
+    private <T> T transform(Object sourceObject, int depth, Class<T> targetClass) {
         if(depth < 0) return null;
 
         T t = reflectionHelper.newInstance(targetClass);

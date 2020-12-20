@@ -33,9 +33,9 @@ abstract class AbstractPropertyEvaluator {
             throw new IllegalStateException(String.format("Path '%s' isn't valid!", path));
         List<String> tokens = new ArrayList<>(Arrays.asList(path.split("\\.")));
         String firstToken = tokens.get(0);
-        if(firstToken.equals(ROOT_TOKEN))
-            tokens.remove(0);
-        else if(firstToken.startsWith(ROOT_TOKEN)) {
+        if(firstToken.equals(ROOT_TOKEN)) {
+            if(tokens.size() > 1) tokens.remove(0);
+        } else if(firstToken.startsWith(ROOT_TOKEN)) {
             tokens.remove(0);
             tokens.add(0, firstToken.substring(1));
         }
