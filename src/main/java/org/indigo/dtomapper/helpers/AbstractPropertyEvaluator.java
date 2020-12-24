@@ -2,6 +2,7 @@ package org.indigo.dtomapper.helpers;
 
 import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
+import org.indigo.dtomapper.metadata.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +45,10 @@ abstract class AbstractPropertyEvaluator {
 
     boolean isRootProperty(List<String> path) {
         return path.size() == 1 && ROOT_TOKEN.equals(path.get(0));
+    }
+
+    boolean isIgnorableDirection(Direction direction) {
+        return Direction.Bidirectional.equals(direction) || Direction.Outgoing.equals(direction);
     }
 
 }

@@ -77,11 +77,13 @@ public class PropertyScannerImpl extends AbstractPropertyEvaluator implements Pr
             metadata.setNested(metadata.isArray() || metadata.isCollection());
             metadata.setEnum(metadata.getBaseType().isEnum());
 
-            Method accessPoint = setters.stream()
-                    .filter(setter -> reflectionHelper.isAccessPoint(targetField.getName().toLowerCase(), setter))
-                    .findFirst().orElseThrow(() -> new NoAccessPointException("Setter not found!"));
-            reflectionHelper.makeAffordable(accessPoint);
-            metadata.setSetter(accessPoint);
+            if(!isIgnorableDirection(metadata.getIgnoreDirection())) {
+                Method accessPoint = setters.stream()
+                        .filter(setter -> reflectionHelper.isAccessPoint(targetField.getName().toLowerCase(), setter))
+                        .findFirst().orElseThrow(() -> new NoAccessPointException("Setter not found!"));
+                reflectionHelper.makeAffordable(accessPoint);
+                metadata.setSetter(accessPoint);
+            }
 
             properties.add(metadata);
         }
