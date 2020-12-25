@@ -11,4 +11,7 @@ public class PersonAddressDto {
     @CustomMapping(function = "getFullAddress")
     private String fullAddress;
 
+    @Property(path = "#.address.houseNumber")
+    private long houseNumber;
+
 }

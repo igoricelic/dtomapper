@@ -30,11 +30,13 @@ class PropertyScannerTests {
     @Test
     void readMetadataTest() {
         List<PropertyMetadata> propertyMetadataList = propertyScanner.readMetadata(PersonAddressDto.class);
-        assertEquals(1, propertyMetadataList.size());
-        PropertyMetadata metadata = propertyMetadataList.get(0);
-        assertEquals("address", metadata.getPath().get(0));
-        assertEquals(String.class, metadata.getBaseType());
-        // todo:
+        assertTrue(propertyMetadataList.size() > 0);
+        PropertyMetadata fieldMetadata1 = propertyMetadataList.get(0);
+        assertEquals("address", fieldMetadata1.getPath().get(0));
+        assertEquals(String.class, fieldMetadata1.getBaseType());
+        PropertyMetadata fieldMetadata2 = propertyMetadataList.get(1);
+        assertEquals(2, fieldMetadata2.getPath().size());
+        assertEquals(long.class, fieldMetadata2.getBaseType());
     }
 
     @Test
