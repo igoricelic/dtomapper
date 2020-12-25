@@ -134,6 +134,7 @@ class ReflectionHelperTests {
         assertTrue(reflectionHelper.isCompatibles(Boolean.class, boolean.class));
         assertTrue(reflectionHelper.isCompatibles(List.class, Collection.class));
         assertTrue(reflectionHelper.isCompatibles(Integer.class, Integer.class));
+        assertTrue(reflectionHelper.isCompatibles(Integer.class, Number.class));
         assertFalse(reflectionHelper.isCompatibles(Integer.class, long.class));
         assertFalse(reflectionHelper.isCompatibles(Character.class, String.class));
         assertFalse(reflectionHelper.isCompatibles(List.class, Set.class));

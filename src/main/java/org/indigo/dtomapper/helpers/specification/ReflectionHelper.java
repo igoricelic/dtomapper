@@ -77,6 +77,7 @@ public interface ReflectionHelper {
     boolean isPrimNotPrimCompatibles(Class<?> type1, Class<?> type2);
 
     /**
+     * Checks that present classes are assignable.
      * Two classes is assignable if if they are the same or one is a subclass of another class.
      */
     boolean isAssignableTypes(Class<?> type1, Class<?> type2);
