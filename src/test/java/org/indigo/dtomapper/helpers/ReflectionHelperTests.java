@@ -188,7 +188,9 @@ class ReflectionHelperTests {
     @Test
     void readGetterByFieldTest(){
         assertDoesNotThrow(() -> reflectionHelper.readGetterByField("textField", ReflectionUtilClass.class));
-        assertThrows(NoAccessPointException.class, () -> reflectionHelper.readGetterByField("parameterizedField", ReflectionUtilClass.class));
+        // todo: razmisliti o sledecem
+        // assertThrows(NoAccessPointException.class, () -> reflectionHelper.readGetterByField("parameterizedField", ReflectionUtilClass.class));
+        assertNull(reflectionHelper.readGetterByField("parameterizedField", ReflectionUtilClass.class));
     }
 
     @Test

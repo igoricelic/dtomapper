@@ -153,8 +153,10 @@ public class ReflectionHelperImpl implements ReflectionHelper {
         Method getter = readAllMethods(clazz).stream()
                 .filter(method -> isGetter(method) && isAccessPoint(fieldName, method))
                 .findFirst()
-                .orElseThrow(() -> new NoAccessPointException(String.format("Not found access point for property '%s' in class '%s'!", fieldName, clazz.getName())));
-        getterCache.put(key, getter);
+                .orElse(null);
+                // todo: razmisliti o sledecem
+                // .orElseThrow(() -> new NoAccessPointException(String.format("Not found access point for property '%s' in class '%s'!", fieldName, clazz.getName())));
+        if(Objects.nonNull(getter)) getterCache.put(key, getter);
         return getter;
     }
 

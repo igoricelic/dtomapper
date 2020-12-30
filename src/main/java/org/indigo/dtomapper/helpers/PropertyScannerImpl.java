@@ -44,43 +44,56 @@ public class PropertyScannerImpl extends AbstractPropertyEvaluator implements Pr
             PropertyMetadata metadata = new PropertyMetadata();
             // default values
             metadata.setReference(targetField);
+            // default path is path to the field with equals name in the source class
             metadata.setPath(List.of(targetField.getName()));
 
             Property propertyAnnotation = targetField.getDeclaredAnnotation(Property.class);
             if(Objects.nonNull(propertyAnnotation)) {
+                // if property annotation is present, default values will be override
+                // set new depth level (default depth level is 0)
                 metadata.setDepth(propertyAnnotation.depth());
+                // if the path is presented, we will verify and parse it... otherwise, keep the default
                 List<String> path = "".equals(propertyAnnotation.path()) ? metadata.getPath() : parse(propertyAnnotation.path());
                 metadata.setPath(path);
+                // checks that is present property is a root property (check that value is '#')
                 metadata.setRoot(isRootProperty(path));
             }
 
             CustomMapping customMappingAnnotation = targetField.getDeclaredAnnotation(CustomMapping.class);
             if(Objects.nonNull(customMappingAnnotation)) {
+                // if property annotation is present, read and set metadata for custom mapping (such as class and name of custom function)
                 metadata.setCustomMappingMetadata(new CustomMappingMetadata(customMappingAnnotation.function(), customMappingAnnotation.clazz()));
             }
 
             Ignore ignoreAnnotation = targetField.getDeclaredAnnotation(Ignore.class);
             if(Objects.nonNull(ignoreAnnotation)) {
+                // if property annotation is present, read and set metadata for ignoring
                 metadata.setIgnoreDirection(ignoreAnnotation.direction());
             }
 
+            // read and set base field type (java type of field)
             Class<?> javaType = targetField.getType();
             metadata.setBaseType(javaType);
             if(javaType.isArray()) {
+                // if field is array, mark as array field and override base type with raw type (component type)
                 metadata.setArray(true);
                 metadata.setBaseType(javaType.getComponentType());
             } else if(reflectionHelper.isParametrizedType(targetField)) {
+                // if field is collection, mark as collection field and override base type with raw type (nested type) and set collection type (such as List or Set...)
                 metadata.setCollection(true);
                 metadata.setCollectionType(javaType);
                 metadata.setBaseType(reflectionHelper.readParametrizedType(targetField));
             }
+            // field is nested if it's array or collection
             metadata.setNested(metadata.isArray() || metadata.isCollection());
             metadata.setEnum(metadata.getBaseType().isEnum());
 
             if(!isIgnorableDirection(metadata.getIgnoreDirection())) {
+                // if field isn't ignorable in the 'Outgoing' direction, read and set access point as setter method
                 Method accessPoint = setters.stream()
                         .filter(setter -> reflectionHelper.isAccessPoint(targetField.getName().toLowerCase(), setter))
                         .findFirst().orElseThrow(() -> new NoAccessPointException("Setter not found!"));
+                // change visibility from access point method, for example if method is private or protected - make it a public
                 reflectionHelper.makeAffordable(accessPoint);
                 metadata.setSetter(accessPoint);
             }
