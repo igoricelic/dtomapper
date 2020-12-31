@@ -2,6 +2,7 @@ package org.indigo.dtomapper.mapping.model.to;
 
 import lombok.Data;
 import org.indigo.dtomapper.annotations.Property;
+import org.indigo.dtomapper.mapping.model.from.Person;
 
 import java.time.LocalDateTime;
 
@@ -27,5 +28,8 @@ public class SimplePersonDto {
 
     @Property(path = "#address.city.country", depth = 1)
     private CountryDto countryDto;
+
+    @Property(path = "#")
+    private Person person;
 
 }

@@ -32,6 +32,7 @@ abstract class AbstractMapper implements Mapper {
         for(String field: metadata.getPath()) {
             // find the access point to fetch the value
             Method getter = reflectionHelper.readGetterByField(field.toLowerCase(), result.getClass());
+            if(Objects.isNull(getter)) return null;
             // fetch value
             result = reflectionHelper.invokeMethod(getter, result);
             if(Objects.isNull(result)) return null;

@@ -2,6 +2,7 @@ package org.indigo.dtomapper.helpers;
 
 import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
+import org.indigo.dtomapper.metadata.enums.Direction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,9 +34,9 @@ abstract class AbstractPropertyEvaluator {
             throw new IllegalStateException(String.format("Path '%s' isn't valid!", path));
         List<String> tokens = new ArrayList<>(Arrays.asList(path.split("\\.")));
         String firstToken = tokens.get(0);
-        if(firstToken.equals(ROOT_TOKEN))
-            tokens.remove(0);
-        else if(firstToken.startsWith(ROOT_TOKEN)) {
+        if(firstToken.equals(ROOT_TOKEN)) {
+            if(tokens.size() > 1) tokens.remove(0);
+        } else if(firstToken.startsWith(ROOT_TOKEN)) {
             tokens.remove(0);
             tokens.add(0, firstToken.substring(1));
         }
@@ -44,6 +45,10 @@ abstract class AbstractPropertyEvaluator {
 
     boolean isRootProperty(List<String> path) {
         return path.size() == 1 && ROOT_TOKEN.equals(path.get(0));
+    }
+
+    boolean isIgnorableDirection(Direction direction) {
+        return Direction.Bidirectional.equals(direction) || Direction.Outgoing.equals(direction);
     }
 
 }

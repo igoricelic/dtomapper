@@ -51,6 +51,7 @@ class BasicMappingTests {
         assertEquals("Belgrade", personDto.getCity());
         assertNull(personDto.getCountry());
         assertNull(personDto.getCountryDto());
+        assertNotNull(personDto.getPerson());
     }
 
     @Test
