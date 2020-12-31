@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PropertyScanner {
 
-    /**
+    /*
      * Returns list of metadata for each property in the class.
      * Metadata contains all relevant information about property as java type,
      * corresponding property from @Property annotation and mapping metadata.

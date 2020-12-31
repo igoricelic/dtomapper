@@ -11,56 +11,56 @@ import java.util.List;
 
 public interface ReflectionHelper {
 
-    /**
+    /*
      * Checks that present class is get access point.
      * @param method - candidate
      * @return - true if method is setter, otherwise false
      */
     boolean isGetter(Method method);
 
-    /**
+    /*
      * Checks that present class is set access point.
      * @param method - candidate
      * @return - true if method is setter, otherwise false
      */
     boolean isSetter(Method method);
 
-    /**
+    /*
      * Checks that present class is void class or type.
      * @param clazz - reference to field for check
      * @return - true if class is void
      */
     boolean isVoid(Class<?> clazz);
 
-    /**
+    /*
      * Checks that present class is boolean class or type.
      * @param clazz - reference to field for check
      * @return - true if class is compatible with boolean
      */
     boolean isBoolean(Class<?> clazz);
 
-    /**
+    /*
      * Checks that present field is static field.
      * @param field - reference to field for check
      * @return - true if field is static, otherwise false
      */
     boolean isStatic(Field field);
 
-    /**
+    /*
      * Checks that present field has final modifier level.
      * @param field - reference to field for check
      * @return - true if field is final, otherwise false
      */
     boolean isFinal(Field field);
 
-    /**
+    /*
      * Checks that present field is parametrized type.
      * @param field  - reference to field
      * @return - true if field is parametrized, otherwise false
      */
     boolean isParametrizedType(Field field);
 
-    /**
+    /*
      * Checks that present class is creatable. Class is creatable, from the angle of dto mapper,
      * if contains default constructor.
      * @param clazz - reference to class for check
@@ -68,7 +68,7 @@ public interface ReflectionHelper {
      */
     boolean isCreatable(Class<?> clazz);
 
-    /**
+    /*
      * Checks that present method is access point to present field name.
      * fieldName: firstName, method.name: getFirstName output: true
      * fieldName: isActive, method.name: isActive output: true
@@ -79,7 +79,7 @@ public interface ReflectionHelper {
      */
     boolean isAccessPoint(String fieldName, Method method);
 
-    /**
+    /*
      * Checks that present classes are compatible.
      * Two classes is compatible if if they are the same or assignable.
      * Primitive and corresponding not primitive classes are also compatible.
@@ -89,7 +89,7 @@ public interface ReflectionHelper {
      */
     boolean isCompatibles(Class<?> type1, Class<?> type2);
 
-    /**
+    /*
      * Checks that present classes are compatible as class - type comparing.
      * (for exam. Boolean.class and Boolean.Type (boolean.class) are compatible)
      * @param notPrimitiveClass - type of not primitive candidate
@@ -98,7 +98,7 @@ public interface ReflectionHelper {
      */
     boolean isPrimNotPrimCompatibles(Class<?> notPrimitiveClass, Class<?> primitiveClass);
 
-    /**
+    /*
      * Checks that present classes are assignable.
      * Two classes is assignable if if they are the same or one is a subclass of another class.
      * @param type1 - reference to first type
@@ -107,7 +107,7 @@ public interface ReflectionHelper {
      */
     boolean isAssignableTypes(Class<?> type1, Class<?> type2);
 
-    /**
+    /*
      * Checks that present class is from JAVA bootstrap libraries like as java.lang(Long, String...),
      * java.util(List, Set, ArrayList...), java.time(LocalDateTime...)
      *
@@ -119,7 +119,7 @@ public interface ReflectionHelper {
      */
     boolean isBootstrapType(Class<?> type);
 
-    /**
+    /*
      * Returns all methods from the passed class and all its superclasses all the way to the class Object.
      * Applies a hit-miss policy and puts results in the cache by input class.
      * @param clazz - reference to type
@@ -127,7 +127,7 @@ public interface ReflectionHelper {
      */
     List<Method> readAllMethods(Class<?> clazz);
 
-    /**
+    /*
      * Returns all fields from the passed class and all its superclasses all the way to the class Object.
      * Applies a hit-miss policy and puts results in the cache by input class.
      * @param clazz - reference to type
@@ -135,20 +135,20 @@ public interface ReflectionHelper {
      */
     List<Field> readAllFields(Class<?> clazz);
 
-    /**
+    /*
      * Returns get access method from desired class by field name.
      * Applies a hit-miss policy and puts results in the cache by input combination (fieldName, class).
      * @throws NoAccessPointException - if method does't exists
      */
     Method readGetterByField(String fieldName, Class<?> clazz);
 
-    /**
+    /*
      * Returns modifier level of present object.
      * @throws IllegalStateException - if not readable modifier level
      */
     int readModifiers(AccessibleObject accessibleObject);
 
-    /**
+    /*
      * Returns nested type of present parametrized type.
      * for exam: field.type: List String output: String
      * @param field - candidate
@@ -157,7 +157,7 @@ public interface ReflectionHelper {
      */
     Class<?> readParametrizedType(Field field);
 
-    /**
+    /*
      * Method will be checks modifier level of accessible object (access point method)
      * and make method as accessible.
      * In the practise, private or protected metod will be change to public.
@@ -166,7 +166,7 @@ public interface ReflectionHelper {
      */
     void makeAffordable(AccessibleObject accessibleObject);
 
-    /**
+    /*
      * Returns new instance object of desired class if the class is creatable.
      * @param clazz - type from which we want to get an instance
      * @return - new instance of desired type
@@ -174,7 +174,7 @@ public interface ReflectionHelper {
      */
     <T> T newInstance(Class<T> clazz);
 
-    /**
+    /*
      * Returns result of invocation desired method on target object with present parameters.
      * @param method - reference to method who want to invoke
      * @param target - the object over which we want to invoke the method, if method is static, value of 'target' is null
