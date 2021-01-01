@@ -17,6 +17,8 @@ public class SimplePersonDto {
     @Property(path = "lastName")
     private String surname;
 
+    private String[] nicknames;
+
     @Property(path = "dateOfBirth")
     private LocalDateTime birthday;
 

@@ -4,7 +4,7 @@ import org.indigo.dtomapper.exceptions.IllegalStateException;
 
 import java.util.Objects;
 
-public class Assert {
+public final class Assert {
 
     private static final String DEFAULT_NOT_NULL_MESSAGE = "Argument can't be null!";
 

@@ -24,4 +24,6 @@ public class PersonDto {
     @Property(depth = 1)
     private AddressDto address;
 
+    private String[] nicknames;
+
 }

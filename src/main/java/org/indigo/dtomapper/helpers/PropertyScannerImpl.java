@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
-public class PropertyScannerImpl extends AbstractPropertyEvaluator implements PropertyScanner {
+public final class PropertyScannerImpl extends AbstractPropertyEvaluator implements PropertyScanner {
 
     private final ConcurrentMap<Class<?>, List<PropertyMetadata>> propertyCache;
 

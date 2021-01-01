@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 
 abstract class AbstractTransformer implements TransformManager {
 
-    final ReflectionHelper reflectionHelper;
+    private final ReflectionHelper reflectionHelper;
     final ConcurrentMap<String, Function> transformationCache;
-    final ConcurrentMap<String, Method> transformationMethodCache;
     private final TransformationProvider transformationProvider;
+    private final ConcurrentMap<String, Method> transformationMethodCache;
 
     AbstractTransformer(ReflectionHelper reflectionHelper, TransformationProvider transformationProvider) {
         this.reflectionHelper = reflectionHelper;
@@ -39,26 +39,13 @@ abstract class AbstractTransformer implements TransformManager {
         return reflectionHelper.invokeMethod(mapperMethod,null, source);
     }
 
-    List<Object> toCollection(Object source) {
-        if(Collection.class.isAssignableFrom(source.getClass())) {
-            List<Object> elements = new ArrayList<>();
-            elements.addAll(((Collection<Object>) source));
-            return elements;
-        }
-        if(source.getClass().isArray()) {
-            return Arrays.asList((Object[]) source);
-        }
-        return List.of(source);
-    }
-
     Object doCast(Object object, Class<?> sourceType, Class<?> targetType) {
         try {
             Assert.checkNotNull(object, sourceType, targetType);
             // if types are compatible, just return input object
             if(reflectionHelper.isCompatibles(sourceType, targetType)) return object;
             // otherwise, take a reference to transformer and do transform
-            Function function = transformationProvider.findTransformation(sourceType, targetType);
-            return function.apply(object);
+            return ((Function) transformationProvider.findTransformation(sourceType, targetType)).apply(object);
         } catch (Exception e) {
             throw new IllegalStateException(String.format("Error in invocation transformation: %s", e.getMessage()));
         }
@@ -79,6 +66,14 @@ abstract class AbstractTransformer implements TransformManager {
         return results.get(0);
     }
 
+    List<Object> toCollection(Object source) {
+        if(Collection.class.isAssignableFrom(source.getClass()))
+            return new ArrayList<>((Collection<Object>) source);
+        if(source.getClass().isArray())
+            return Arrays.asList((Object[]) source);
+        return Collections.singletonList(source);
+    }
+
     Object toDesiredPack(List<Object> results, PropertyMetadata metadata) {
         if(metadata.isNested()) {
             if(metadata.isArray()) {
@@ -95,11 +90,10 @@ abstract class AbstractTransformer implements TransformManager {
     }
 
     TransformRelationState readRelationState(Class<?> sourceType, Class<?> targetType) {
-        if(isCastable(sourceType, targetType)) {
+        if(isCastable(sourceType, targetType))
             return TransformRelationState.COMPATIBLE;
-        } else if(reflectionHelper.isCreatable(targetType) && !reflectionHelper.isBootstrapType(targetType)) {
+        if(reflectionHelper.isCreatable(targetType) && !reflectionHelper.isBootstrapType(targetType))
             return TransformRelationState.INCOMPATIBLE;
-        }
         return TransformRelationState.ERROR;
     }
 

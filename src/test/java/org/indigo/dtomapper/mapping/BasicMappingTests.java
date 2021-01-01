@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,6 +32,7 @@ class BasicMappingTests {
                 .firstName("Pera")
                 .lastName("Peric")
                 .dateOfBirth(LocalDateTime.now())
+                .nicknames(Set.of("Pera", "Perica"))
                 .address(
                         Address.builder().street("Sredacka").houseNumber(11)
                                 .city(

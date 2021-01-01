@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Stream;
 
-public class ReflectionHelperImpl implements ReflectionHelper {
+public final class ReflectionHelperImpl implements ReflectionHelper {
 
     private static final String GETTER_PREFIX = "get", GETTER_IS_PREFIX = "is", SETTER_PREFIX = "set";
 

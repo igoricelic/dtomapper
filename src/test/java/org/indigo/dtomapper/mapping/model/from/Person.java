@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Data
 @Builder
@@ -22,5 +23,7 @@ public class Person {
     private LocalDateTime dateOfBirth;
 
     private Address address;
+
+    private Set<String> nicknames;
 
 }

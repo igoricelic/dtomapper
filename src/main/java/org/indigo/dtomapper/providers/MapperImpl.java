@@ -18,7 +18,7 @@ final class MapperImpl extends AbstractMapper {
 
     @Override
     public <T> T map(Object source, Class<T> targetClass) {
-        return map(source,0, targetClass);
+        return map(source, 0, targetClass);
     }
 
     @Override
@@ -41,7 +41,7 @@ final class MapperImpl extends AbstractMapper {
             if(Objects.isNull(sourceValue)) continue;
 
             // step 2: transform source value to expected type
-            Object mappedValue = transformManager.transform(sourceValue, depth, targetProperty,this);
+            Object mappedValue = transformManager.transform(sourceValue, depth, targetProperty, this);
             if(Objects.isNull(mappedValue)) continue;
 
             // step 3: write mapped value to target instance
