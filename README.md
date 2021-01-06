@@ -1,11 +1,12 @@
 # DtoMapper
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-DtoMapper is a simple and lightweight library for mapping domain to dto objects without disrupting lazy-load performance. The basic role of this library is to reduce the boilerplate code generated during mapping and at the same time perform a performer transformation of the domain object into dto and vice versa.
+
+The basic role of this library is to reduce the boilerplate code generated during mapping and at the same time perform a transformation of the domain object into dto and vice versa.
 
 Installation
 =========
 
-#### using maven: 
+#### Using Maven: 
 ```
 <dependency>
   <groupId>com.github.igoricelic</groupId>
@@ -13,7 +14,7 @@ Installation
   <version>1.0.0</version>
 </dependency>
 ```
-#### using gredle:
+#### Using Gradle:
 ```
 implementation 'com.github.igoricelic:dtomapper:1.0.0'
 ```
@@ -39,7 +40,7 @@ Mapper mapper = MapperFactory.getMapper();
 ```
 # Mapping
 
-So, we can define Domain classes for our example:
+We can define domain classes for our example:
 ```java
 class Person {
     @Id
@@ -95,7 +96,7 @@ class AddressDto {
     // constructor, get and set methods...
 }
 ```
-Now - the mapping is very simple:
+The mapping is very simple:
 ```java
 // with property to 0 depth level (without address)
 PersonDto personDto = mapper.map(personObject, PersonDto.class);
@@ -130,7 +131,7 @@ Default value is 0
 
 #### path
 Indicates the path to the desired property in relation to the initial object (root).
-compared to the previous example, the country from which the person is would be mapped as follows:
+Compared to the previous example, the country from which the person is would be mapped as follows:
 ```java
 @Property(path="address.city.country")
 String personCountry;
@@ -156,7 +157,7 @@ class PersonDto {
 ## @CustomMapping
 
 For more advanced property mapping we need to define custom functions, and declare them through @CustomMapper annotation.
-Let's look again, we want a address of person as a single string field:
+Let's look again, if we want an address of a person as a single string field:
 
 ```java
 class PersonDto {
@@ -168,11 +169,11 @@ class PersonDto {
     // constructor, get and set methods...
 }
 ```
-Of course, it's necessary to define the desired and register mapping function:
+Of course, it's necessary to define and register desired mapping function:
 ```java
-mapper.registerFunction("getFullAddress", (Address a) -> String.fromat("%s %d", a.getStreeat(), a.getNumber()));
+mapper.registerFunction("getFullAddress", (Address a) -> String.fromat("%s %d", a.getStreet(), a.getNumber()));
 ```
-By property param "path" will be join fullAddress from dto with address from domain.
+Parameter "path" in @Property annotation will join fullAddress from the dto with the address from the domain.
 @CustomMapping says that we want to apply the "getFullAddress" function to the Address and expect the mapping result to be String.
 
 Also, we can register method reference or static method from other class.

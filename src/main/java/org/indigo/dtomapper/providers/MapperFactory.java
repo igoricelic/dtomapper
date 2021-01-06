@@ -9,7 +9,7 @@ import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.helpers.specification.TransformManager;
 import org.indigo.dtomapper.providers.specification.Mapper;
 
-public class MapperFactory {
+public final class MapperFactory {
 
     public static Mapper getMapper() {
         ReflectionHelper reflectionHelper = new ReflectionHelperImpl();

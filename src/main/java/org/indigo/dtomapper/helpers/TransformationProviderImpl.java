@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
-public class TransformationProviderImpl implements TransformationProvider {
+public final class TransformationProviderImpl implements TransformationProvider {
 
     private final ConcurrentMap<ImmutablePair<Class, Class>, Function> transformations;
 
@@ -30,7 +30,6 @@ public class TransformationProviderImpl implements TransformationProvider {
         transformations.put(new ImmutablePair<>(long.class, Integer.class), (Object l) -> ((Long) l).intValue());
         transformations.put(new ImmutablePair<>(long.class, String.class), (Object l) -> ((Long) l).toString());
         transformations.put(new ImmutablePair<>(long.class, int.class), (Object l) -> ((Long) l).intValue());
-
 
         transformations.put(new ImmutablePair<>(Integer.class, Long.class), (Object l) -> ((Integer) l).longValue());
         transformations.put(new ImmutablePair<>(Integer.class, String.class), (Object l) -> ((Integer) l).toString());
