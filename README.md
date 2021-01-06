@@ -113,10 +113,12 @@ The object we want to map
 #### depth_level 
 Denotes the total number of "nested steps" relative to the source object, as well as an upper limit for property mapping. We will understand the meaning if we recall the previous example:
 
-In the following example we got an instance of PersonDto without the value of the property "Address", why?
-mapper.map(personObject, PersonDto.class) 
-depth_level in this case is 0 and method is completely equivalent to
-mapper.map(personObject, 0, PersonDto.class) 
+In the following example: 
+###### mapper.map(personObject, PersonDto.class)
+we got an instance of PersonDto without the value of the property "Address", why?
+
+***depth_level*** in this case is 0 and method is completely equivalent to
+###### mapper.map(personObject, 0, PersonDto.class) 
 
 This means that we will perform the mapping by picking only the contents whose depth level is <= 0.
 Such behavior can be used in combination with lazy loading by using depth level 0 during group reading, but when we want an individual object with all relations we will use a higher depth level.
