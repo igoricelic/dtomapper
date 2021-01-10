@@ -11,7 +11,7 @@ Installation
 <dependency>
   <groupId>com.github.igoricelic</groupId>
   <artifactId>dtomapper</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 #### Using Gradle:

@@ -32,7 +32,7 @@
 
     <groupId>com.github.igoricelic</groupId>
     <artifactId>dtomapper</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>DtoMapper</name>
     <description>Lightweight library for mapping domain to dto objects without disrupting lazy load performance.</description>
