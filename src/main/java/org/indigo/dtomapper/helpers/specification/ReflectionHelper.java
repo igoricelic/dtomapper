@@ -1,9 +1,5 @@
 package org.indigo.dtomapper.helpers.specification;
 
-import org.indigo.dtomapper.exceptions.IllegalAccessException;
-import org.indigo.dtomapper.exceptions.IllegalStateException;
-import org.indigo.dtomapper.exceptions.NoAccessPointException;
-
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -21,7 +21,7 @@ public interface TransformManager {
 
     /*
      * Api to registration custom transformation by name of transformation.
-     * Transformation will use method refernece.
+     * Transformation will use method reference.
      * @param name
      * @param function
      */

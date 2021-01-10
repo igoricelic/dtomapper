@@ -67,7 +67,9 @@ public final class ReflectionHelperImpl implements ReflectionHelper {
     public boolean isAccessPoint(String fieldName, Method method) {
         String methodName = method.getName().toLowerCase();
         // regular case
-        if(methodName.endsWith(fieldName.toLowerCase())) return true;
+        // if(methodName.endsWith(fieldName.toLowerCase())) return true;
+        String methodSuffix = methodName.length() > 3 ? methodName.substring(3) : "";
+        if(methodSuffix.equals(fieldName.toLowerCase())) return true;
         /* edge case:
             primitive boolean field and method (getter or setter)
             for example: field - isActive getter - isActive setter - setActive

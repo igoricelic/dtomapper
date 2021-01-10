@@ -13,6 +13,13 @@ abstract class AbstractPropertyEvaluator {
 
     private static final String ROOT_TOKEN = "#";
 
+    /*
+     * valid matches:
+     *  filed
+     *  field.field
+     *  #.field.field
+     *  #field.field.field
+     */
     private static final String REGEX = "((\\w+|#\\w+|#)(?:\\.\\w+)*)";
 
     private final Pattern pattern;
