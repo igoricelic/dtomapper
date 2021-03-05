@@ -44,6 +44,7 @@ abstract class AbstractPropertyEvaluator {
         if(firstToken.equals(ROOT_TOKEN)) {
             if(tokens.size() > 1) tokens.remove(0);
         } else if(firstToken.startsWith(ROOT_TOKEN)) {
+            // when first token starts with #, for example #user.address
             tokens.remove(0);
             tokens.add(0, firstToken.substring(1));
         }
