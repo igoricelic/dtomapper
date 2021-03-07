@@ -11,12 +11,12 @@ Installation
 <dependency>
   <groupId>com.github.igoricelic</groupId>
   <artifactId>dtomapper</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 #### Using Gradle:
 ```
-implementation 'com.github.igoricelic:dtomapper:1.0.0'
+implementation 'com.github.igoricelic:dtomapper:1.0.2'
 ```
 #### (Optional) Create spring bean:
 

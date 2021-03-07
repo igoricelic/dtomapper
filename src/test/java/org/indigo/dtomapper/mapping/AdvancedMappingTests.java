@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,6 +29,7 @@ class AdvancedMappingTests {
                 .id(15L)
                 .firstName("Pera")
                 .lastName("Peric")
+                .nicknames(Set.of())
                 .dateOfBirth(LocalDateTime.now())
                 .address(
                         Address.builder().street("Sredacka").houseNumber(11)
@@ -47,6 +49,8 @@ class AdvancedMappingTests {
         assertNull(personDto.getLastName());
         assertTrue(personDto.isHasBirthday());
         assertNull(personDto.getAddress());
+        assertNotNull(personDto.getNicknames());
+        assertEquals(0, personDto.getNicknames().length);
     }
 
     @Test

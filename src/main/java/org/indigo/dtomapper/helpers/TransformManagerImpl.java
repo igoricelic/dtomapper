@@ -27,21 +27,24 @@ public final class TransformManagerImpl extends AbstractTransformer {
         List<Object> mappedValues = new ArrayList<>();
         List<Object> elementsToMapping = toCollection(source);
 
-        TransformRelationState relationState = readRelationState(elementsToMapping.get(0).getClass(), metadata.getBaseType());
-        for (Object element : elementsToMapping) {
-            switch (relationState){
-                case COMPATIBLE:
-                    mappedValues.add(doCast(element, element.getClass(), metadata.getBaseType()));
-                    break;
-                case INCOMPATIBLE:
-                    int depth = (actualDepth > 0) ? actualDepth - 1 : 0;
-                    Object mappedValue = mapper.map(element, depth, metadata.getBaseType());
-                    if(Objects.nonNull(mappedValue)) mappedValues.add(mappedValue);
-                    break;
-                case ERROR:
-                    throw new IllegalStateException(String.format("Mapping from type '%s' to type '%s' isn't possible without custom transformation!", element.getClass(), metadata.getBaseType()));
+        if(elementsToMapping.size() > 0) {
+            TransformRelationState relationState = readRelationState(elementsToMapping.get(0).getClass(), metadata.getBaseType());
+            for (Object element : elementsToMapping) {
+                switch (relationState){
+                    case COMPATIBLE:
+                        mappedValues.add(doCast(element, element.getClass(), metadata.getBaseType()));
+                        break;
+                    case INCOMPATIBLE:
+                        int depth = (actualDepth > 0) ? actualDepth - 1 : 0;
+                        Object mappedValue = mapper.map(element, depth, metadata.getBaseType());
+                        if(Objects.nonNull(mappedValue)) mappedValues.add(mappedValue);
+                        break;
+                    case ERROR:
+                        throw new IllegalStateException(String.format("Mapping from type '%s' to type '%s' isn't possible without custom transformation!", element.getClass(), metadata.getBaseType()));
+                }
             }
         }
+
         return toDesiredPack(mappedValues, metadata);
     }
 
