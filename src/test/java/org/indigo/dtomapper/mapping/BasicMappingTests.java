@@ -14,7 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +36,7 @@ class BasicMappingTests {
                 .firstName("Pera")
                 .lastName("Peric")
                 .dateOfBirth(LocalDateTime.now())
-                .nicknames(Set.of("Pera", "Perica"))
+                .nicknames(Stream.of("Pera", "Perica").collect(Collectors.toSet()))
                 .address(
                         Address.builder().street("Sredacka").houseNumber(11)
                                 .city(
