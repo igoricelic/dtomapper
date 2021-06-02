@@ -32,7 +32,7 @@ abstract class AbstractTransformer implements TransformManager {
     }
 
     Object doCustomMapping(Object source, CustomMappingMetadata mappingMetadata) {
-        var mapperFunction = transformationCache.get(mappingMetadata.getFunction());
+        Function mapperFunction = transformationCache.get(mappingMetadata.getFunction());
         if(Objects.nonNull(mapperFunction))
             return mapperFunction.apply(source);
         Method mapperMethod = getTransformMethod(mappingMetadata.getFunction(), mappingMetadata.getClazz());
@@ -57,7 +57,7 @@ abstract class AbstractTransformer implements TransformManager {
 
     Method getTransformMethod(String methodName, Class<?> clazz) {
         if(transformationMethodCache.containsKey(methodName)) return transformationMethodCache.get(methodName);
-        var results = reflectionHelper.readAllMethods(clazz)
+        List<Method> results = reflectionHelper.readAllMethods(clazz)
                 .stream().filter(m -> m.getName().equals(methodName))
                 .collect(Collectors.toList());
         if(results.isEmpty()) throw new NoTransformPointException(String.format("Method '%s' not found in class '%s'!", methodName, clazz));
@@ -78,7 +78,7 @@ abstract class AbstractTransformer implements TransformManager {
         if(metadata.isNested()) {
             if(metadata.isArray()) {
                 int idx = 0;
-                var array = Array.newInstance(metadata.getBaseType(), results.size());
+                Object array = Array.newInstance(metadata.getBaseType(), results.size());
                 for (Object element : results) Array.set(array, idx++, element);
                 return array;
             } else {

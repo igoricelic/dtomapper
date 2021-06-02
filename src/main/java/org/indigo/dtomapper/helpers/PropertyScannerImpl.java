@@ -11,9 +11,7 @@ import org.indigo.dtomapper.metadata.PropertyMetadata;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
@@ -45,7 +43,7 @@ public final class PropertyScannerImpl extends AbstractPropertyEvaluator impleme
             // default values
             metadata.setReference(targetField);
             // default path is path to the field with equals name in the source class
-            metadata.setPath(List.of(targetField.getName()));
+            metadata.setPath(Collections.singletonList(targetField.getName()));
 
             Property propertyAnnotation = targetField.getDeclaredAnnotation(Property.class);
             if(Objects.nonNull(propertyAnnotation)) {

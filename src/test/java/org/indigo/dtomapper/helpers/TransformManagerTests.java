@@ -20,6 +20,8 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,7 +42,7 @@ class TransformManagerTests {
 
     @Test
     void transformTest() {
-        List<Integer> inputValue = List.of(1, 2, 3, 4, 5);
+        List<Integer> inputValue = Arrays.asList(1, 2, 3, 4, 5);
         PropertyMetadata metadata = new PropertyMetadata();
         metadata.setBaseType(Long.class);
         metadata.setNested(true);
@@ -89,7 +91,7 @@ class TransformManagerTests {
         // single object to collection
         assertEquals(1, abstractTransformer.toCollection(new Object()).size());
         // set of objects to collection
-        assertEquals(3, abstractTransformer.toCollection(Set.of(1, 2, 3)).size());
+        assertEquals(3, abstractTransformer.toCollection(Stream.of(1, 2, 3).collect(Collectors.toSet())).size());
         // array of objects to collection
         assertEquals(3, abstractTransformer.toCollection(new String[]{"1", "2", "3"}).size());
     }
@@ -122,9 +124,9 @@ class TransformManagerTests {
 
     @Test
     void toDesiredPackTest(){
-        List<Object> objectsToMapping = List.of(1);
+        List<Object> objectsToMapping = Collections.singletonList(1);
 
-        var propertyMetadata = new PropertyMetadata();
+        PropertyMetadata propertyMetadata = new PropertyMetadata();
         propertyMetadata.setNested(false);
         assertEquals(1, abstractTransformer.toDesiredPack(objectsToMapping, propertyMetadata));
 
