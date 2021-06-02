@@ -11,12 +11,12 @@ Installation
 <dependency>
   <groupId>com.github.igoricelic</groupId>
   <artifactId>dtomapper</artifactId>
-  <version>1.0.2</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 #### Using Gradle:
 ```
-implementation 'com.github.igoricelic:dtomapper:1.0.2'
+implementation 'com.github.igoricelic:dtomapper:1.1.0'
 ```
 #### (Optional) Create spring bean:
 
@@ -196,6 +196,8 @@ To develop this solution faster, contributions are welcome...
 - nested mapping
 - inheritance support: mapping property from superclass
 - custom property mapping
+
+##### v1.1.0 (stable)
 
 Contributing
 =========

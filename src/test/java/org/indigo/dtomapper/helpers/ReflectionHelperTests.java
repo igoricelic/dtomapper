@@ -173,14 +173,14 @@ class ReflectionHelperTests {
 
     @Test
     void readAllMethodsTest(){
-        var results = reflectionHelper.readAllMethods(ReflectionUtilClass.class);
+        List<Method> results = reflectionHelper.readAllMethods(ReflectionUtilClass.class);
         assertNotNull(results);
         assertEquals(8, results.size());
     }
 
     @Test
     void readAllFieldsTest(){
-        var results = reflectionHelper.readAllFields(ReflectionUtilClass.class);
+        List<Field> results = reflectionHelper.readAllFields(ReflectionUtilClass.class);
         assertNotNull(results);
         assertEquals(6, results.size());
     }

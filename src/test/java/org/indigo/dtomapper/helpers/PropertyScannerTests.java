@@ -12,6 +12,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -116,9 +119,9 @@ class PropertyScannerTests {
 
     @Test
     void isRootPropertyTest() {
-        assertTrue(propertyEvaluator.isRootProperty(List.of("#")));
-        assertFalse(propertyEvaluator.isRootProperty(List.of("address", "value")));
-        assertFalse(propertyEvaluator.isRootProperty(List.of("value")));
+        assertTrue(propertyEvaluator.isRootProperty(Collections.singletonList("#")));
+        assertFalse(propertyEvaluator.isRootProperty(Arrays.asList("address", "value")));
+        assertFalse(propertyEvaluator.isRootProperty(Collections.singletonList("value")));
     }
 
 }

@@ -42,8 +42,10 @@ public final class TransformationProviderImpl implements TransformationProvider 
         transformations.put(new ImmutablePair<>(int.class, long.class), (Object l) -> ((Integer) l).longValue());
 
         // Date & Time transformations
-        transformations.put(new ImmutablePair<>(Date.class, LocalDate.class), (Object date) -> LocalDate.ofInstant(((Date) date).toInstant(), ZoneId.systemDefault()));
-        transformations.put(new ImmutablePair<>(Date.class, LocalTime.class), (Object date) -> LocalTime.ofInstant(((Date) date).toInstant(), ZoneId.systemDefault()));
+        // transformations.put(new ImmutablePair<>(Date.class, LocalDate.class), (Object date) -> LocalDate.ofInstant(((Date) date).toInstant(), ZoneId.systemDefault()));
+        transformations.put(new ImmutablePair<>(Date.class, LocalDate.class), (Object date) -> ((Date) date).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        // transformations.put(new ImmutablePair<>(Date.class, LocalTime.class), (Object date) -> LocalTime.ofInstant(((Date) date).toInstant(), ZoneId.systemDefault()));
+        transformations.put(new ImmutablePair<>(Date.class, LocalDate.class), (Object date) -> ((Date) date).toInstant().atZone(ZoneId.systemDefault()).toLocalTime());
         transformations.put(new ImmutablePair<>(Date.class, LocalDateTime.class), (Object date) -> LocalDateTime.ofInstant(((Date) date).toInstant(), ZoneId.systemDefault()));
 
         transformations.put(new ImmutablePair<>(LocalDateTime.class, Date.class), (Object date) -> Date.from(((LocalDateTime) date).toInstant(ZoneOffset.UTC)));
