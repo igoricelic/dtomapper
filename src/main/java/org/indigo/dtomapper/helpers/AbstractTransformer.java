@@ -66,14 +66,6 @@ abstract class AbstractTransformer implements TransformManager {
         return results.get(0);
     }
 
-    List<Object> toCollection(Object source) {
-        if(Collection.class.isAssignableFrom(source.getClass()))
-            return new ArrayList<>((Collection<Object>) source);
-        if(source.getClass().isArray())
-            return Arrays.asList((Object[]) source);
-        return Collections.singletonList(source);
-    }
-
     Object toDesiredPack(List<Object> results, PropertyMetadata metadata) {
         if(metadata.isNested()) {
             if(metadata.isArray()) {
@@ -90,6 +82,8 @@ abstract class AbstractTransformer implements TransformManager {
     }
 
     TransformRelationState readRelationState(Class<?> sourceType, Class<?> targetType) {
+        if(Objects.isNull(sourceType) || Objects.isNull(targetType))
+            return TransformRelationState.ERROR;
         if(isCastable(sourceType, targetType))
             return TransformRelationState.COMPATIBLE;
         if(reflectionHelper.isCreatable(targetType) && !reflectionHelper.isBootstrapType(targetType))

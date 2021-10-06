@@ -102,6 +102,4 @@ public final class PropertyScannerImpl extends AbstractPropertyEvaluator impleme
         return properties;
     }
 
-
-
 }

@@ -1,16 +1,18 @@
 package org.indigo.dtomapper.helpers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Function;
+
 import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.helpers.specification.TransformationProvider;
 import org.indigo.dtomapper.metadata.PropertyMetadata;
 import org.indigo.dtomapper.metadata.enums.TransformRelationState;
 import org.indigo.dtomapper.providers.specification.Mapper;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
 
 public final class TransformManagerImpl extends AbstractTransformer {
 
@@ -25,10 +27,12 @@ public final class TransformManagerImpl extends AbstractTransformer {
             return doCustomMapping(source, metadata.getCustomMappingMetadata());
         }
         List<Object> mappedValues = new ArrayList<>();
-        List<Object> elementsToMapping = toCollection(source);
+        Collection<?> elementsToMapping = CollectionHelper.toCollection(source);
 
-        if(elementsToMapping.size() > 0) {
-            TransformRelationState relationState = readRelationState(elementsToMapping.get(0).getClass(), metadata.getBaseType());
+        if(CollectionHelper.isNonEmpty(elementsToMapping)) {
+            TransformRelationState relationState =
+                    readRelationState(Optional.ofNullable(CollectionHelper.getFirst(elementsToMapping)).map(Object::getClass).orElse(null), metadata.getBaseType());
+
             for (Object element : elementsToMapping) {
                 switch (relationState){
                     case COMPATIBLE:

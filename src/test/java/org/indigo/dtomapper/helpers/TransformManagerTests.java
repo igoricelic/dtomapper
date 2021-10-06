@@ -86,6 +86,8 @@ class TransformManagerTests {
         assertFalse((boolean) abstractTransformer.doCustomMapping(null, mappingMetadata2));
     }
 
+    // todo: zameniti
+    /*
     @Test
     void toCollectionTest() {
         // single object to collection
@@ -95,6 +97,7 @@ class TransformManagerTests {
         // array of objects to collection
         assertEquals(3, abstractTransformer.toCollection(new String[]{"1", "2", "3"}).size());
     }
+     */
 
     @Test
     void doCastTest(){

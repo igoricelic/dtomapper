@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 abstract class AbstractPropertyEvaluator {
 
     private static final String ROOT_TOKEN = "#";
+    private static final String PATH_SPLIT_REGEX = "\\.";
 
     /*
      * valid matches:
@@ -39,9 +40,9 @@ abstract class AbstractPropertyEvaluator {
     List<String> parse(String path) {
         if(!isValidPath(path))
             throw new IllegalStateException(String.format("Path '%s' isn't valid!", path));
-        List<String> tokens = new ArrayList<>(Arrays.asList(path.split("\\.")));
+        List<String> tokens = new ArrayList<>(Arrays.asList(path.split(PATH_SPLIT_REGEX)));
         String firstToken = tokens.get(0);
-        if(firstToken.equals(ROOT_TOKEN)) {
+        if(ROOT_TOKEN.equals(firstToken)) {
             if(tokens.size() > 1) tokens.remove(0);
         } else if(firstToken.startsWith(ROOT_TOKEN)) {
             // when first token starts with #, for example #user.address

@@ -134,7 +134,7 @@ public interface ReflectionHelper {
     /*
      * Returns get access method from desired class by field name.
      * Applies a hit-miss policy and puts results in the cache by input combination (fieldName, class).
-     * @throws NoAccessPointException - if method does't exists
+     * @throws NoAccessPointException - if method doesn't exist
      */
     Method readGetterByField(String fieldName, Class<?> clazz);
 
@@ -156,7 +156,7 @@ public interface ReflectionHelper {
     /*
      * Method will be checks modifier level of accessible object (access point method)
      * and make method as accessible.
-     * In the practise, private or protected metod will be change to public.
+     * In the practise, private or protected method will be change to public.
      * @param accessibleObject - field or method who we need to make affordable
      * @throws IllegalAccessException - if field or method is a final
      */
