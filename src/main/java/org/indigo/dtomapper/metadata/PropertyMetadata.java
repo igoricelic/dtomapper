@@ -10,12 +10,24 @@ import java.util.List;
 @Data
 public final class PropertyMetadata {
 
+    /*
+     * route to property from root
+     */
     private List<String> path;
 
+    /*
+     *
+     */
     private int depth = 0;
 
+    /*
+     * reflection pointer fot property
+     */
     private Field reference;
 
+    /*
+     * access point for value
+     */
     private Method setter;
 
     private Class<?> baseType, collectionType;

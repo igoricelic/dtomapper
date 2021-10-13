@@ -175,14 +175,14 @@ class ReflectionHelperTests {
     void readAllMethodsTest(){
         List<Method> results = reflectionHelper.readAllMethods(ReflectionUtilClass.class);
         assertNotNull(results);
-        assertEquals(8, results.size());
+        assertEquals(10, results.size());
     }
 
     @Test
     void readAllFieldsTest(){
         List<Field> results = reflectionHelper.readAllFields(ReflectionUtilClass.class);
         assertNotNull(results);
-        assertEquals(6, results.size());
+        assertEquals(8, results.size());
     }
 
     @Test

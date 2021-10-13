@@ -29,7 +29,7 @@ public final class TransformManagerImpl extends AbstractTransformer {
         List<Object> mappedValues = new ArrayList<>();
         Collection<?> elementsToMapping = CollectionHelper.toCollection(source);
 
-        if(CollectionHelper.isNonEmpty(elementsToMapping)) {
+        if(CollectionHelper.isNotEmpty(elementsToMapping)) {
             TransformRelationState relationState =
                     readRelationState(Optional.ofNullable(CollectionHelper.getFirst(elementsToMapping)).map(Object::getClass).orElse(null), metadata.getBaseType());
 
