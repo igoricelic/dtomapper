@@ -9,7 +9,7 @@ public interface TransformManager {
 
     /*
      * Performs the transformation of the type of source object into the desired type defined by metadata.
-     * Argument 'mapper' provide recursive logic if need a inner nested mapping.
+     * Argument 'mapper' provide recursive logic if we need an inner nested mapping.
      * Argument 'depth' define a max number of steps in the depth when mapping.
      * @param source
      * @param actualDepth

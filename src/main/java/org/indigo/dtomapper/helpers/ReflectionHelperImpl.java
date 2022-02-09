@@ -57,7 +57,7 @@ public final class ReflectionHelperImpl implements ReflectionHelper {
     public boolean isCreatable(Class<?> clazz) {
         try {
             Assert.checkNotNull(clazz);
-            return !Objects.isNull(clazz.getDeclaredConstructor());
+            return Objects.nonNull(clazz.getDeclaredConstructor());
         } catch (NoSuchMethodException e) {
             return false;
         }
