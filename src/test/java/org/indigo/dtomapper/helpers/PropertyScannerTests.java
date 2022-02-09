@@ -1,5 +1,16 @@
 package org.indigo.dtomapper.helpers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.exceptions.NoAccessPointException;
 import org.indigo.dtomapper.helpers.specification.PropertyScanner;
@@ -11,13 +22,6 @@ import org.indigo.dtomapper.metadata.enums.Direction;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PropertyScannerTests {

@@ -1,6 +1,5 @@
 package org.indigo.dtomapper.metadata;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

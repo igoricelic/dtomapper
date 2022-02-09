@@ -1,15 +1,15 @@
 package org.indigo.dtomapper.providers;
 
+import java.lang.reflect.Method;
+import java.util.Objects;
+import java.util.function.Function;
+
 import org.indigo.dtomapper.helpers.specification.PropertyScanner;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.helpers.specification.TransformManager;
 import org.indigo.dtomapper.metadata.PropertyMetadata;
 import org.indigo.dtomapper.metadata.enums.Direction;
 import org.indigo.dtomapper.providers.specification.Mapper;
-
-import java.lang.reflect.Method;
-import java.util.Objects;
-import java.util.function.Function;
 
 abstract class AbstractMapper implements Mapper {
 
