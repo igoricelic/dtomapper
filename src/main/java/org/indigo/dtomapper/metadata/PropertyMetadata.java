@@ -21,7 +21,7 @@ public final class PropertyMetadata {
     private int depth = 0;
 
     /*
-     * reflection pointer fot property
+     * reflection pointer for property
      */
     private Field reference;
 

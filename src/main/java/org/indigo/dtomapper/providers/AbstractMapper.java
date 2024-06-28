@@ -1,15 +1,16 @@
 package org.indigo.dtomapper.providers;
 
-import java.lang.reflect.Method;
-import java.util.Objects;
-import java.util.function.Function;
-
 import org.indigo.dtomapper.helpers.specification.PropertyScanner;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.helpers.specification.TransformManager;
 import org.indigo.dtomapper.metadata.PropertyMetadata;
 import org.indigo.dtomapper.metadata.enums.Direction;
+import org.indigo.dtomapper.providers.specification.CustomMapper;
 import org.indigo.dtomapper.providers.specification.Mapper;
+
+import java.lang.reflect.Method;
+import java.util.Objects;
+import java.util.function.Function;
 
 abstract class AbstractMapper implements Mapper {
 
@@ -23,6 +24,7 @@ abstract class AbstractMapper implements Mapper {
         this.propertyScanner = propertyScanner;
         this.reflectionHelper = reflectionHelper;
         this.transformManager = transformManager;
+        this.transformManager.setMapper(this);
     }
 
     Object readFromSource(Object sourceObject, PropertyMetadata metadata) {
@@ -50,8 +52,14 @@ abstract class AbstractMapper implements Mapper {
     }
 
     @Override
+    @Deprecated
     public <T, E> void registerFunction(String functionName, Function<T, E> function) {
         transformManager.addTransformation(functionName, function);
+    }
+
+    @Override
+    public <L, R> void registerCustomMapper(CustomMapper<R, L> customMapper) {
+        transformManager.registerCustomMapper(customMapper);
     }
 
 }

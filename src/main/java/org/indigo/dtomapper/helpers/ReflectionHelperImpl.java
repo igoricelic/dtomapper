@@ -1,6 +1,7 @@
 package org.indigo.dtomapper.helpers;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.indigo.dtomapper.exceptions.IllegalAccessException;
 import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.exceptions.NoAccessPointException;
@@ -178,6 +179,19 @@ public final class ReflectionHelperImpl implements ReflectionHelper {
             throw new IllegalStateException(String.format("Illegal state of mapping! Not present parametrized field '%s'", field.getName()));
         ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
         return (Class<?>) parameterizedType.getActualTypeArguments()[0];
+    }
+
+    @Override
+    public <L, R> Pair<Class<L>, Class<R>> readParametrizedTypes(Class<?> clazz) {
+        if(clazz.getGenericInterfaces().length == 0) {
+            throw new IllegalStateException(String.format("Illegal state of mapping! Not present parametrized field '%s'", clazz.getName()));
+        }
+        ParameterizedType parameterizedType = (ParameterizedType) clazz.getGenericInterfaces()[0];
+        Type[] typeArguments = parameterizedType.getActualTypeArguments();
+        if(typeArguments == null || typeArguments.length != 2) {
+            throw new IllegalStateException("Illegal state, there is not two type arguments!");
+        }
+        return new ImmutablePair<>((Class<L>) typeArguments[0], (Class<R>) typeArguments[1]);
     }
 
     public void makeAffordable(AccessibleObject accessibleObject) {

@@ -1,5 +1,7 @@
 package org.indigo.dtomapper.helpers.specification;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -152,6 +154,15 @@ public interface ReflectionHelper {
      * @throws IllegalStateException - if field isn't parametrized
      */
     Class<?> readParametrizedType(Field field);
+
+    /*
+     * Returns nested types of present parametrized type.
+     * for exam: CustomMapper<A, B> String output: Pair(A.class, B.class)
+     * @param field - candidate
+     * @return - nested types if type is parametrized, otherwise throw exception
+     * @throws IllegalStateException - if field isn't parametrized
+     */
+    <L, R> Pair<Class<L>, Class<R>> readParametrizedTypes(Class<?> clazz);
 
     /*
      * Method will be checks modifier level of accessible object (access point method)

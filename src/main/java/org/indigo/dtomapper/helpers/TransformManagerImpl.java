@@ -1,18 +1,15 @@
 package org.indigo.dtomapper.helpers;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Function;
-
 import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.helpers.specification.TransformationProvider;
+import org.indigo.dtomapper.metadata.CustomMapperMetadata;
 import org.indigo.dtomapper.metadata.PropertyMetadata;
 import org.indigo.dtomapper.metadata.enums.TransformRelationState;
 import org.indigo.dtomapper.providers.specification.Mapper;
+
+import java.util.*;
+import java.util.function.Function;
 
 public final class TransformManagerImpl extends AbstractTransformer {
 
@@ -23,9 +20,16 @@ public final class TransformManagerImpl extends AbstractTransformer {
     @Override
     public Object transform(Object source, int actualDepth, PropertyMetadata metadata, Mapper mapper) {
         // if present custom mapping data - do custom mapping
+        // todo: Deprecated part (for backward compatibility)
         if(Objects.nonNull(metadata.getCustomMappingMetadata())) {
             return doCustomMapping(source, metadata.getCustomMappingMetadata());
         }
+        // new part - find custom mapper and do mapping
+        Optional<CustomMapperMetadata<?, ?>> optionalCustomMapper = findCustomMapper(source.getClass(), metadata.getBaseType());
+        if(optionalCustomMapper.isPresent()) {
+            return doCustomMapping(source, optionalCustomMapper.get());
+        }
+
         List<Object> mappedValues = new ArrayList<>();
         Collection<?> elementsToMapping = CollectionHelper.toCollection(source);
 
@@ -53,6 +57,7 @@ public final class TransformManagerImpl extends AbstractTransformer {
     }
 
     @Override
+    @Deprecated
     public <T, E> void addTransformation(String name, Function<T, E> function) {
         this.transformationCache.put(name, function);
     }

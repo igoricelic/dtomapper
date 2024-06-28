@@ -4,11 +4,13 @@ import org.indigo.dtomapper.helpers.Assert;
 import org.indigo.dtomapper.helpers.specification.PropertyScanner;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.helpers.specification.TransformManager;
+import org.indigo.dtomapper.metadata.CustomMapperMetadata;
 import org.indigo.dtomapper.metadata.PropertyMetadata;
 import org.indigo.dtomapper.metadata.enums.Direction;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 final class MapperImpl extends AbstractMapper {
 
@@ -17,13 +19,13 @@ final class MapperImpl extends AbstractMapper {
     }
 
     @Override
-    public <T> T map(Object source, Class<T> targetClass) {
-        return map(source, 0, targetClass);
-    }
-
-    @Override
     public <T> T map(Object source, int maxDepth, Class<T> targetClass) {
         Assert.checkNotNull(source, targetClass);
+        // try to find custom mapper
+        Optional<CustomMapperMetadata<?, ?>> cm = transformManager.findCustomMapper(source.getClass(), targetClass);
+        if(cm.isPresent()) {
+            return (T) transformManager.doCustomMapping(source, cm.get());
+        }
         return transform(source, maxDepth, targetClass);
     }
 

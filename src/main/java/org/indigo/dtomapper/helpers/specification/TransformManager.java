@@ -5,7 +5,7 @@ import org.indigo.dtomapper.providers.specification.Mapper;
 
 import java.util.function.Function;
 
-public interface TransformManager {
+public interface TransformManager extends CustomMappingTransformManager {
 
     /*
      * Performs the transformation of the type of source object into the desired type defined by metadata.
@@ -24,7 +24,9 @@ public interface TransformManager {
      * Transformation will use method reference.
      * @param name
      * @param function
+     * @Deprecated since 2.0.0: use registerCustomMapper instead
      */
+    @Deprecated
     <T, E> void addTransformation(String name, Function<T, E> function);
 
 }
