@@ -6,6 +6,7 @@ import org.indigo.dtomapper.mapping.model.from.City;
 import org.indigo.dtomapper.mapping.model.from.Country;
 import org.indigo.dtomapper.mapping.model.from.Person;
 import org.indigo.dtomapper.mapping.model.to.ErrorPersonDto;
+import org.indigo.dtomapper.mapping.model.to.PersonDto;
 import org.indigo.dtomapper.mapping.model.to.SimplePersonDto;
 import org.indigo.dtomapper.providers.MapperFactory;
 import org.indigo.dtomapper.providers.specification.Mapper;
@@ -14,9 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -73,6 +72,14 @@ class BasicMappingTests {
     void mappingWithErrorTest() {
         assertThrows(IllegalStateException.class, () -> mapper.map(null, ErrorPersonDto.class));
         assertThrows(IllegalStateException.class, () -> mapper.map(person, ErrorPersonDto.class));
+    }
+
+    @Test
+    void mapAsListTest() {
+        List<Person> personList = Arrays.asList(person, person, person);
+        List<PersonDto> personDtoList = mapper.mapAsList(personList, PersonDto.class);
+        assertNotNull(personDtoList);
+        assertEquals(3, personDtoList.size());
     }
 
 }

@@ -12,11 +12,11 @@ public interface Mapper {
 
     <T> T map(Object source, int maxDepth, Class<T> targetClass);
 
-    default <T> List<T> mapAsList(List<Object> sources, Class<T> targetClass) {
+    default <T> List<T> mapAsList(List<?> sources, Class<T> targetClass) {
         return mapAsList(sources, 0, targetClass);
     }
 
-    default <T> List<T> mapAsList(List<Object> sources, int maxDepth, Class<T> targetClass) {
+    default <T> List<T> mapAsList(List<?> sources, int maxDepth, Class<T> targetClass) {
         return sources.stream()
                 .map(source -> map(source, maxDepth, targetClass))
                 .collect(Collectors.toList());

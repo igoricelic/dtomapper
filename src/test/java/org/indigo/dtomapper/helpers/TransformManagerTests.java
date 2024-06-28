@@ -1,27 +1,29 @@
 package org.indigo.dtomapper.helpers;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.exceptions.NoTransformPointException;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.helpers.specification.TransformManager;
 import org.indigo.dtomapper.helpers.specification.TransformationProvider;
-import org.indigo.dtomapper.mapping.model.from.Address;
-import org.indigo.dtomapper.mapping.model.from.Country;
-import org.indigo.dtomapper.mapping.model.from.Person;
+import org.indigo.dtomapper.mapping.model.customMapper.NestedCustomMapper;
+import org.indigo.dtomapper.mapping.model.from.*;
+import org.indigo.dtomapper.mapping.model.to.B;
 import org.indigo.dtomapper.mapping.model.to.CountryDto;
 import org.indigo.dtomapper.mapping.model.to.PersonDto;
+import org.indigo.dtomapper.mapping.model.to.WorkerDto;
+import org.indigo.dtomapper.metadata.CustomMapperMetadata;
 import org.indigo.dtomapper.metadata.CustomMappingMetadata;
 import org.indigo.dtomapper.metadata.PropertyMetadata;
 import org.indigo.dtomapper.metadata.enums.TransformRelationState;
 import org.indigo.dtomapper.providers.MapperFactory;
+import org.indigo.dtomapper.providers.specification.CustomMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -86,18 +88,30 @@ class TransformManagerTests {
         assertFalse((boolean) abstractTransformer.doCustomMapping(null, mappingMetadata2));
     }
 
-    // todo: zameniti
-    /*
     @Test
-    void toCollectionTest() {
-        // single object to collection
-        assertEquals(1, abstractTransformer.toCollection(new Object()).size());
-        // set of objects to collection
-        assertEquals(3, abstractTransformer.toCollection(Stream.of(1, 2, 3).collect(Collectors.toSet())).size());
-        // array of objects to collection
-        assertEquals(3, abstractTransformer.toCollection(new String[]{"1", "2", "3"}).size());
+    void toCustomMappingTestNew() {
+        // create custom mapper
+        CustomMapperMetadata<A, B> metadata =
+                new CustomMapperMetadata<>(new ImmutablePair<>(A.class, B.class), new NestedCustomMapper());
+
+        // create source object
+        A a = new A();
+        a.setName("John");
+        a.setSurname("Doe");
+
+        // test transformations
+        Object result = abstractTransformer.doCustomMapping(a, metadata);
+        assertTrue(result instanceof B);
+        B b = (B) result;
+        assertEquals("John", b.getFirstName());
+        assertEquals("Doe", b.getLastName());
+
+        Object reverseResult = abstractTransformer.doCustomMapping(b, metadata);
+        assertTrue(reverseResult instanceof A);
+        A reverseA = (A) reverseResult;
+        assertEquals("John", reverseA.getName());
+        assertEquals("Doe", reverseA.getSurname());
     }
-     */
 
     @Test
     void doCastTest(){
@@ -155,6 +169,30 @@ class TransformManagerTests {
         assertEquals(TransformRelationState.INCOMPATIBLE, abstractTransformer.readRelationState(Address.class, PersonDto.class));
         assertEquals(TransformRelationState.COMPATIBLE, abstractTransformer.readRelationState(Long.class, long.class));
         assertEquals(TransformRelationState.COMPATIBLE, abstractTransformer.readRelationState(Long.class, int.class));
+    }
+
+    @Test
+    void findCustomMapperTest() {
+        // register mapper
+        abstractTransformer.registerCustomMapper(new NestedCustomMapper());
+
+        // find custom mapper
+        assertTrue(abstractTransformer.findCustomMapper(A.class, B.class).isPresent());
+        assertTrue(abstractTransformer.findCustomMapper(B.class, A.class).isPresent());
+        assertFalse(abstractTransformer.findCustomMapper(Worker.class, WorkerDto.class).isPresent());
+    }
+
+    @Test
+    void registerCustomMapperTest() {
+        assertThrows(IllegalStateException.class, () -> abstractTransformer.registerCustomMapper(null));
+        CustomMapper<A, B> customMapper = new NestedCustomMapper();
+        assertDoesNotThrow(() -> abstractTransformer.registerCustomMapper(customMapper));
+    }
+
+    @Test
+    void setMapperTest() {
+        assertThrows(IllegalStateException.class, () -> abstractTransformer.setMapper(null));
+        assertDoesNotThrow(() -> abstractTransformer.setMapper(MapperFactory.getMapper()));
     }
 
 }

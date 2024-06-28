@@ -156,7 +156,9 @@ class PersonDto {
 }
 ```
 
-## @CustomMapping
+## @CustomMapping (Deprecated since 2.0.0)
+
+<b>Note: @CustomMapping is deprecated since version 2.0.0. Use CustomMapper instead.</b>
 
 For more advanced property mapping we need to define custom functions, and declare them through @CustomMapper annotation.
 Let's look again, if we want an address of a person as a single string field:
@@ -185,6 +187,72 @@ mapper.registerFunction("checkIsNull", Objects::isNull);
 @CustomMapping(clazz=Objects.class, function="isNull");
 ```
 
+## CustomMapper
+
+The existing <b>@CustomMapping</b> support didn't give us enough flexibility in mapping. 
+
+Let's imagine the following case: we want to map an object of class <b>A</b> to an object of class <b>B</b>, with the fact that we have more than one fields that are not directly compatible by themselves.
+
+Additionally, the class <b>B</b> object may not have a default constructor but is created using builder or factory methods.
+
+From now on, using the support provided by CustomMapper, the end user remains in control of how Mapper will work.
+
+```java
+public interface CustomMapper<L, R> {
+
+    R mapLeftToRight(L left, Mapper mapper);
+
+    L mapRightToLeft(R right, Mapper mapper);
+
+}
+```
+
+Example:
+
+```java
+import org.indigo.dtomapper.providers.specification.CustomMapper;
+
+class Employee {
+    private String name;
+    private String surname;
+    private String street;
+    private Long houseNumber;
+    private String city;
+    // constructors, get and set methods...
+}
+
+class EmployeeDto {
+    private String fullName;
+    private String address;
+    // constructors, get and set methods...
+}
+
+class EmployeeCustomMapper implements CustomMapper<Employee, EmployeeDto> {
+    
+        @Override
+        public EmployeeDto mapLeftToRight(Employee left, Mapper mapper) {
+            EmployeeDto right = new EmployeeDto();
+            right.setFullName(left.getName() + " " + left.getSurname());
+            right.setAddress(left.getStreet() + " " + left.getHouseNumber() + ", " + left.getCity());
+            return right;
+        }
+    
+        @Override
+        public Employee mapRightToLeft(EmployeeDto right, Mapper mapper) {
+            String[] fullName = right.getFullName().split(" ");
+            String[] address = right.getAddress().split(", ");
+            Employee left = new Employee();
+            left.setName(fullName[0]);
+            left.setSurname(fullName[1]);
+            left.setStreet(address[0]);
+            left.setHouseNumber(Long.parseLong(address[1]));
+            left.setCity(address[2]);
+            return left;
+        }
+    
+    }
+}
+```
 
 Roadmap
 =========

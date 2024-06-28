@@ -1,11 +1,12 @@
 package org.indigo.dtomapper.providers;
 
+import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.exceptions.NoTransformPointException;
-import org.indigo.dtomapper.mapping.model.from.Address;
-import org.indigo.dtomapper.mapping.model.from.City;
-import org.indigo.dtomapper.mapping.model.from.Country;
-import org.indigo.dtomapper.mapping.model.from.Person;
+import org.indigo.dtomapper.mapping.model.customMapper.NestedCustomMapper;
+import org.indigo.dtomapper.mapping.model.from.*;
+import org.indigo.dtomapper.mapping.model.to.B;
 import org.indigo.dtomapper.mapping.model.to.PersonAddressDto;
+import org.indigo.dtomapper.providers.specification.CustomMapper;
 import org.indigo.dtomapper.providers.specification.Mapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,14 @@ class MapperImplTests {
         mapper.registerFunction("getFullAddress", MapperImplTests::getFullAddress);
         PersonAddressDto personAddressDto = mapper.map(person, PersonAddressDto.class);
         assertEquals("Sredacka 11", personAddressDto.getFullAddress());
+    }
+
+    @Test
+    void registerCustomMapper() {
+        Mapper mapper = MapperFactory.getMapper();
+        assertThrows(IllegalStateException.class, () -> mapper.registerCustomMapper(null));
+        CustomMapper<A, B> customMapper = new NestedCustomMapper();
+        assertDoesNotThrow(() -> mapper.registerCustomMapper(customMapper));
     }
 
     public static String getFullAddress(Address address) {

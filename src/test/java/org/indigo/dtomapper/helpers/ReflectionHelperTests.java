@@ -1,12 +1,17 @@
 package org.indigo.dtomapper.helpers;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.indigo.dtomapper.exceptions.IllegalAccessException;
 import org.indigo.dtomapper.exceptions.IllegalStateException;
 import org.indigo.dtomapper.exceptions.NoAccessPointException;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.mapping.model.AbstractUtilSuperClass;
+import org.indigo.dtomapper.mapping.model.InvalidParametrizedType;
 import org.indigo.dtomapper.mapping.model.ReflectionUtilClass;
+import org.indigo.dtomapper.mapping.model.customMapper.NestedCustomMapper;
+import org.indigo.dtomapper.mapping.model.from.A;
 import org.indigo.dtomapper.mapping.model.from.Person;
+import org.indigo.dtomapper.mapping.model.to.B;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -182,7 +187,7 @@ class ReflectionHelperTests {
     void readAllFieldsTest(){
         List<Field> results = reflectionHelper.readAllFields(ReflectionUtilClass.class);
         assertNotNull(results);
-        assertEquals(6, results.size());
+        assertEquals(8, results.size());
     }
 
     @Test
@@ -206,6 +211,20 @@ class ReflectionHelperTests {
             assertThrows(IllegalStateException.class, () -> reflectionHelper.readParametrizedType(ReflectionUtilClass.class.getDeclaredField("intField")));
             assertEquals(String.class, reflectionHelper.readParametrizedType(ReflectionUtilClass.class.getDeclaredField("parameterizedField")));
         } catch (NoSuchFieldException e) {
+            fail();
+        }
+    }
+
+    @Test
+    void readParametrizedTypesTest() {
+        try {
+            assertThrows(IllegalStateException.class, () -> reflectionHelper.readParametrizedTypes(ReflectionUtilClass.class));
+            assertThrows(IllegalStateException.class, () -> reflectionHelper.readParametrizedTypes(InvalidParametrizedType.class));
+            Pair<Class<A>, Class<B>> pairOfTypes = reflectionHelper.readParametrizedTypes(NestedCustomMapper.class);
+            assertNotNull(pairOfTypes);
+            assertEquals(A.class, pairOfTypes.getLeft());
+            assertEquals(B.class, pairOfTypes.getRight());
+        } catch (Exception e) {
             fail();
         }
     }

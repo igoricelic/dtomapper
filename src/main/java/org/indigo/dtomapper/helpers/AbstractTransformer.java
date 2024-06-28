@@ -2,7 +2,6 @@ package org.indigo.dtomapper.helpers;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.indigo.dtomapper.exceptions.IllegalStateException;
-import org.indigo.dtomapper.exceptions.InvalidCustomMapperException;
 import org.indigo.dtomapper.exceptions.NoTransformPointException;
 import org.indigo.dtomapper.helpers.specification.ReflectionHelper;
 import org.indigo.dtomapper.helpers.specification.TransformManager;
@@ -121,15 +120,14 @@ abstract class AbstractTransformer implements TransformManager {
 
     @Override
     public <L, R> void registerCustomMapper(CustomMapper<L, R> customMapper) {
+        Assert.checkNotNull(customMapper);
         Pair<Class<L>, Class<R>> pairOfTypes = reflectionHelper.readParametrizedTypes(customMapper.getClass());
-        if(pairOfTypes == null) {
-            throw new InvalidCustomMapperException("Invalid instance of custom mapper!");
-        }
         customMapperRegistry.add(new CustomMapperMetadata<>(pairOfTypes, customMapper));
     }
 
     @Override
     public void setMapper(Mapper mapper) {
+        Assert.checkNotNull(mapper);
         this.mapper = mapper;
     }
 
